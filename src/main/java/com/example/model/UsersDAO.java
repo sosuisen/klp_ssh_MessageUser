@@ -37,17 +37,18 @@ public class UsersDAO {
 		}
 	}
 
-	public void get(String name) {
+	public UserDTO get(String name) {
 		try (
 				Connection conn = ds.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users where name=?");) {
 			pstmt.setString(1, name);
 			ResultSet rs = pstmt.executeQuery();
 			rs.next();
-			users.add(new UserDTO(rs.getString("name"), rs.getString("role"), rs.getString("password")));
+			return new UserDTO(rs.getString("name"), rs.getString("role"), rs.getString("password"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	public void create(UserDTO userDTO) {
